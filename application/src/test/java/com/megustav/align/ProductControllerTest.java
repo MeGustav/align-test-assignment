@@ -12,6 +12,8 @@ import org.springframework.test.context.ContextConfiguration;
 import org.springframework.test.context.junit4.SpringRunner;
 import org.springframework.test.web.servlet.MockMvc;
 import org.springframework.test.web.servlet.request.MockMvcRequestBuilders;
+import org.springframework.test.web.servlet.result.MockMvcResultMatchers;
+import org.springframework.web.servlet.config.annotation.EnableWebMvc;
 
 /**
  * Product controller tests
@@ -22,6 +24,7 @@ import org.springframework.test.web.servlet.request.MockMvcRequestBuilders;
 @RunWith(SpringRunner.class)
 @SpringBootTest
 @AutoConfigureMockMvc
+@EnableWebMvc
 @ContextConfiguration(classes = {
         TestDataSourceConfiguration.class,
         ControllerConfiguration.class
@@ -36,8 +39,8 @@ public class ProductControllerTest {
      */
     @Test
     public void testGetSuccess() throws Exception {
-        // TODO disabling assertions for now, investigate later
-        mvc.perform(MockMvcRequestBuilders
-                .get("/products").accept(MediaType.APPLICATION_JSON));
+        mvc.perform(
+                MockMvcRequestBuilders.get("/products").accept(MediaType.APPLICATION_JSON)
+        ).andExpect(MockMvcResultMatchers.status().is(200));
     }
 }
