@@ -15,13 +15,13 @@ public class Product {
     /** Product name */
     private final String name;
     /** Brand information */
-    private final Brand brand;
+    private final String brand;
     /** Product price */
     private final BigDecimal price;
     /** Product quantity */
     private final long quantity;
 
-    public Product(long id, String name, Brand brand, BigDecimal price, long quantity) {
+    public Product(long id, String name, String brand, BigDecimal price, long quantity) {
         this.id = id;
         this.name = name;
         this.brand = brand;
@@ -37,7 +37,7 @@ public class Product {
         return name;
     }
 
-    public Brand getBrand() {
+    public String getBrand() {
         return brand;
     }
 

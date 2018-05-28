@@ -1,8 +1,12 @@
 package com.megustav.align;
 
 import com.megustav.align.configuration.ControllerConfiguration;
+import com.megustav.align.configuration.RepositoryConfiguration;
+import com.megustav.align.configuration.ServiceConfiguration;
 import com.megustav.align.configuration.TestDataSourceConfiguration;
+import com.megustav.align.repository.ProductRepository;
 import com.megustav.align.rest.ProductController;
+import com.megustav.align.service.ProductService;
 import org.assertj.core.api.Assertions;
 import org.junit.Test;
 import org.junit.runner.RunWith;
@@ -21,19 +25,26 @@ import org.springframework.test.context.junit4.SpringRunner;
 @SpringBootTest
 @ContextConfiguration(classes = {
         TestDataSourceConfiguration.class,
+        RepositoryConfiguration.class,
+        ServiceConfiguration.class,
         ControllerConfiguration.class
 })
 public class SmokeTest {
 
     @Autowired
+    private ProductRepository repository;
+
+    @Autowired
+    private ProductService service;
+
+    @Autowired
     private ProductController controller;
 
-    /**
-     * Test controller bean present
-     */
     @Test
-    public void controllerShouldBeInitialized() {
-        Assertions.assertThat(controller).isNotNull();
+    public void mainComponentsShouldBeInitialized() {
+        Assertions.assertThat(repository).as("Repository").isNotNull();
+        Assertions.assertThat(service).as("Service").isNotNull();
+        Assertions.assertThat(controller).as("Controller").isNotNull();
     }
 
 }

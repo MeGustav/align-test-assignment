@@ -14,7 +14,7 @@
                 <constraints primaryKey="true" primaryKeyName="xpk_brands"/>
             </column>
             <column name="name" type="varchar(200)">
-                <constraints nullable="false"/>
+                <constraints nullable="false" unique="true"/>
             </column>
         </createTable>
     </changeSet>
@@ -26,7 +26,7 @@
                 <constraints primaryKey="true" primaryKeyName="xpk_products"/>
             </column>
             <column name="name" type="varchar(200)">
-                <constraints nullable="false" unique="true"/>
+                <constraints nullable="false"/>
             </column>
             <column name="brand_id" type="number">
                 <constraints nullable="false" foreignKeyName="xfk_brands" references="brands(id)"/>
@@ -38,6 +38,13 @@
                 <constraints nullable="false"/>
             </column>
         </createTable>
+    </changeSet>
+    <!-- Name and brand is a unique combination -->
+    <changeSet id="base-table-structure-products-unique-index" author="megustav">
+        <createIndex tableName="products" indexName="idx_name_brand" unique="true">
+            <column name="name" type="varchar(200)"/>
+            <column name="brand_id" type="number"/>
+        </createIndex>
     </changeSet>
 
 </databaseChangeLog>

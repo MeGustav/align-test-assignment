@@ -1,6 +1,6 @@
 package com.megustav.align.service;
 
-import com.megustav.align.service.entity.Product;
+import com.megustav.align.service.entity.ProductDTO;
 
 import java.util.List;
 
@@ -17,6 +17,6 @@ public interface ProductService {
      *
      * @return all products
      */
-    List<Product> getAllProducts();
+    List<ProductDTO> getAllProducts();
 
 }

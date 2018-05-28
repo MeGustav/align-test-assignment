@@ -2,7 +2,7 @@ package com.megustav.align.service.impl;
 
 import com.megustav.align.repository.ProductRepository;
 import com.megustav.align.service.ProductService;
-import com.megustav.align.service.entity.Product;
+import com.megustav.align.service.entity.ProductDTO;
 
 import java.util.List;
 import java.util.stream.Collectors;
@@ -23,11 +23,11 @@ public class ProductServiceImpl implements ProductService {
     }
 
     @Override
-    public List<Product> getAllProducts() {
+    public List<ProductDTO> getAllProducts() {
         return repository.getAllProducts().stream()
-                .map(entity -> new Product(
+                .map(entity -> new ProductDTO(
                         entity.getName(),
-                        entity.getBrand().getName(),
+                        entity.getBrand(),
                         entity.getPrice(),
                         entity.getQuantity())
                 ).collect(Collectors.toList());

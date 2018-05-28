@@ -1,7 +1,7 @@
 package com.megustav.align.rest;
 
 import com.megustav.align.service.ProductService;
-import com.megustav.align.service.entity.Product;
+import com.megustav.align.service.entity.ProductDTO;
 import org.springframework.http.MediaType;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
@@ -28,7 +28,7 @@ public class ProductController {
     }
 
     @RequestMapping(method = RequestMethod.GET, produces = MediaType.APPLICATION_JSON_VALUE)
-    public @ResponseBody List<Product> getProducts() {
+    public @ResponseBody List<ProductDTO> getProducts() {
         return service.getAllProducts();
     }
 

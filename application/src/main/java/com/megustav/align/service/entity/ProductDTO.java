@@ -11,7 +11,7 @@ import java.math.BigDecimal;
  * @author MeGustav
  * 28/05/2018 01:22
  */
-public class Product {
+public class ProductDTO {
 
     /** Product name */
     private final String name;
@@ -23,7 +23,7 @@ public class Product {
     private final long quantity;
 
     @JsonCreator
-    public Product(
+    public ProductDTO(
             @JsonProperty(value = "name", required = true) String name,
             @JsonProperty(value = "brand", required = true) String brand,
             @JsonProperty(value = "price", required = true) BigDecimal price,
