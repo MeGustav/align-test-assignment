@@ -1,6 +1,5 @@
 package com.megustav.align.configuration;
 
-import com.megustav.align.rest.PagesController;
 import com.megustav.align.rest.ProductController;
 import com.megustav.align.service.ProductService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -32,14 +31,6 @@ public class ControllerConfiguration {
     @Bean
     public ProductController productController() {
         return new ProductController(productService);
-    }
-
-    /**
-     * @return pages controller
-     */
-    @Bean
-    public PagesController pagesController() {
-        return new PagesController();
     }
 
 }
