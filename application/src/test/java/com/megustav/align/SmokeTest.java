@@ -1,10 +1,9 @@
 package com.megustav.align;
 
 import com.megustav.align.configuration.ControllerConfiguration;
-import com.megustav.align.configuration.RepositoryConfiguration;
-import com.megustav.align.configuration.ServiceConfiguration;
+import com.megustav.align.configuration.JpaConfiguration;
 import com.megustav.align.configuration.TestDataSourceConfiguration;
-import com.megustav.align.repository.ProductRepository;
+import com.megustav.align.domain.repository.ProductRepository;
 import com.megustav.align.rest.ProductController;
 import com.megustav.align.service.ProductService;
 import org.assertj.core.api.Assertions;
@@ -25,8 +24,7 @@ import org.springframework.test.context.junit4.SpringRunner;
 @SpringBootTest
 @ContextConfiguration(classes = {
         TestDataSourceConfiguration.class,
-        RepositoryConfiguration.class,
-        ServiceConfiguration.class,
+        JpaConfiguration.class,
         ControllerConfiguration.class
 })
 public class SmokeTest {

@@ -1,6 +1,6 @@
 package com.megustav.align.service.impl;
 
-import com.megustav.align.repository.ProductRepository;
+import com.megustav.align.domain.repository.ProductRepository;
 import com.megustav.align.service.ProductService;
 import com.megustav.align.service.entity.ProductDTO;
 
@@ -24,10 +24,10 @@ public class ProductServiceImpl implements ProductService {
 
     @Override
     public List<ProductDTO> getAllProducts() {
-        return repository.getAllProducts().stream()
+        return repository.findAll().stream()
                 .map(entity -> new ProductDTO(
                         entity.getName(),
-                        entity.getBrand(),
+                        entity.getBrand().getName(),
                         entity.getPrice(),
                         entity.getQuantity())
                 ).collect(Collectors.toList());

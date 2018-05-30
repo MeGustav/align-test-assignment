@@ -1,6 +1,6 @@
 package com.megustav.align.configuration;
 
-import com.megustav.align.repository.ProductRepository;
+import com.megustav.align.domain.repository.ProductRepository;
 import com.megustav.align.service.ProductService;
 import com.megustav.align.service.impl.ProductServiceImpl;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -15,7 +15,7 @@ import org.springframework.context.annotation.Import;
  * 28/05/2018 01:34
  */
 @Configuration
-@Import({ RepositoryConfiguration.class })
+@Import({ JpaConfiguration.class })
 public class ServiceConfiguration {
 
     /** Products repository */

@@ -4,8 +4,8 @@ import liquibase.integration.spring.SpringLiquibase;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
-import org.springframework.context.annotation.Import;
-import org.springframework.jdbc.core.JdbcTemplate;
+
+import javax.sql.DataSource;
 
 /**
  * Liquibase configuration
@@ -14,15 +14,13 @@ import org.springframework.jdbc.core.JdbcTemplate;
  * 27/05/2018 23:41
  */
 @Configuration
-@Import({ DataSourceConfiguration.class })
 public class LiquibaseConfiguration {
 
-    /** JDBC template */
-    private final JdbcTemplate jdbcTemplate;
+    private final DataSource dataSource;
 
     @Autowired
-    public LiquibaseConfiguration(JdbcTemplate jdbcTemplate) {
-        this.jdbcTemplate = jdbcTemplate;
+    public LiquibaseConfiguration(DataSource dataSource) {
+        this.dataSource = dataSource;
     }
 
     /**
@@ -31,7 +29,7 @@ public class LiquibaseConfiguration {
     @Bean
     public SpringLiquibase liquibase() {
         SpringLiquibase liquibase = new SpringLiquibase();
-        liquibase.setDataSource(jdbcTemplate.getDataSource());
+        liquibase.setDataSource(dataSource);
         liquibase.setChangeLog("classpath:migration/changelog-master.xml");
         return liquibase;
     }
