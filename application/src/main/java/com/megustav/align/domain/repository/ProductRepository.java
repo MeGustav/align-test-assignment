@@ -42,4 +42,14 @@ public interface ProductRepository extends JpaRepository<Product, Long> {
      */
     Page<Product> findAllByQuantityLessThanEqual(int quantity, Pageable pageable);
 
+    /**
+     * Get product page
+     *
+     * @param name product name
+     * @param brand brand
+     * @param pageable {@link Pageable} configuration
+     * @return page
+     */
+    Page<Product> findByNameContainingAndBrand_NameContaining(String name, String brand, Pageable pageable);
+    
 }

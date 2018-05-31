@@ -5,12 +5,15 @@ import com.megustav.align.configuration.TestDataSourceConfiguration;
 import com.megustav.align.domain.entity.Brand;
 import com.megustav.align.domain.entity.Product;
 import com.megustav.align.domain.repository.ProductRepository;
+import org.assertj.core.api.Assertions;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
+import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
+import org.springframework.data.domain.Sort;
 import org.springframework.jdbc.core.JdbcTemplate;
 import org.springframework.test.annotation.DirtiesContext;
 import org.springframework.test.context.ContextConfiguration;
@@ -20,6 +23,7 @@ import javax.persistence.PersistenceException;
 import java.math.BigDecimal;
 import java.util.List;
 import java.util.Optional;
+import java.util.Random;
 import java.util.stream.IntStream;
 
 import static org.assertj.core.api.Assertions.assertThat;
@@ -34,6 +38,11 @@ import static org.assertj.core.api.Assertions.assertThat;
  * generation is tested anyway by the devs (therefore making
  * us free to use repository in any case) for the sake
  * of the assignment I decided to use {@link JdbcTemplate}
+ *
+ * TODO Consider using DBUnit
+ * TODO (though should be done carefully because DBUnit
+ * TODO works only with {@link org.springframework.test.context.support.AbstractTestExecutionListener}
+ * TODO (as I found, but could be wrong))
  *
  * @author MeGustav
  * 27/05/2018 23:15
@@ -91,7 +100,7 @@ public class ProductRepositoryTest {
     }
 
     /**
-     * Tesing pageable functionality
+     * Testing pageable functionality
      */
     @Test
     public void testGetProductsPageable() {
@@ -99,6 +108,45 @@ public class ProductRepositoryTest {
         IntStream.range(1, 10).forEach(idx -> insertProduct("Product" + idx, 1, idx + "0.00", idx));
         List<Product> products = repository.findAll(PageRequest.of(2, 2)).getContent();
         assertThat(products).hasSize(2).extracting(Product::getName).contains("Product5", "Product6");
+    }
+
+    /**
+     * Testing complex pageable request
+     */
+    @Test
+    public void testGetFilteredProducts() {
+        insertBrand(1, "Nike");
+        insertBrand(2, "Adidas");
+        Random rnd = new Random();
+        IntStream.range(1, 100).forEach(idx -> {
+            String name = (rnd.nextBoolean() ? "Glasses" : "Sneakers") + ". Mark " + idx;
+            long brandId = rnd.nextBoolean() ? 1 : 2;
+            insertProduct(name, brandId, idx + "20.00", idx * 10);
+        });
+        // Basic request
+        Page<Product> page = repository.findByNameContainingAndBrand_NameContaining(
+                "Glas", "Ni", PageRequest.of(0, 10, Sort.by(Sort.Order.asc("name")))
+        );
+        // Asserting that there are no unwanted items
+        Assertions.assertThat(page.getContent())
+                .extracting(Product::getName)
+                .allMatch(name -> ! name.contains("Sneakers"));
+        Assertions.assertThat(page.getContent())
+                .extracting(Product::getBrand).extracting(Brand::getName)
+                .allMatch(name -> ! name.contains("Adidas"));
+
+        // Empty search predicate
+        Page<Product> page2 = repository.findByNameContainingAndBrand_NameContaining(
+                "", "Ni", PageRequest.of(0, 100, Sort.by(Sort.Order.asc("id")))
+        );
+        // Asserting that there are both glasses and sneakers in the result
+        Assertions.assertThat(page2.getContent())
+                .extracting(Product::getName)
+                .anyMatch(name -> name.contains("Glasses"))
+                .anyMatch(name -> name.contains("Sneakers"));
+        Assertions.assertThat(page2.getContent())
+                .extracting(Product::getBrand).extracting(Brand::getName)
+                .allMatch(name -> ! name.contains("Adidas"));
     }
 
     /**

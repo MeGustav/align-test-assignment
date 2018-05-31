@@ -1,0 +1,5 @@
+<div class="pagination" ng-if="pages.length >= 2">
+    <ul class="pagination">
+        <li class="page-item" ng-repeat="page in pages" ng-class="{active: page==currentPage}"><a class="page-link" ng-click="selectPage(page)">{{page}}</a></li>
+    </ul>
+</div>

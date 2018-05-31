@@ -36,13 +36,21 @@ productsApp.factory('Resource', ['$q', '$filter', '$http', function ($q, $filter
     function getPage(start, number, params) {
         var deferred = $q.defer();
 
-        $http.get('/products')
+        // Forming filter
+        var pagination = { page: start / 10, size : number };
+        var sort = params.sort.predicate !== undefined ?
+            { field: params.sort.predicate, asc: ! params.sort.reverse } : null;
+        var search = params.search.predicateObject;
+
+        $http.post('/products/filter', { pagination: pagination, sort: sort, search: search })
             .then(function (response) {
                 deferred.resolve({
-                    data: response.data,
-                    numberOfPages: Math.ceil(response.data.length / number)
+                    data: response.data.products,
+                    numberOfPages: Math.ceil(response.data.total / number)
                 });
             }, function (response) {
+                console.log("Response:");
+                console.log(response);
                 deferred.resolve({
                     data: [],
                     numberOfPages: 0
@@ -50,6 +58,7 @@ productsApp.factory('Resource', ['$q', '$filter', '$http', function ($q, $filter
             });
         return deferred.promise;
     }
+
     return {
         getPage: getPage
     };

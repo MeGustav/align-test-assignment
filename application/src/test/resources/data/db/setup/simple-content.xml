@@ -1,0 +1,9 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<dataset>
+    <Brands id="1" name="Nike"/>
+    <Brands id="2" name="Adidas"/>
+    <Products id="1" name="Glasses" brand_id="1" price="200.00" quantity="20"/>
+    <Products id="2" name="Sneakers" brand_id="2" price="240.00" quantity="1"/>
+    <Products id="3" name="Shirt" brand_id="1" price="340.00" quantity="1"/>
+    <Products id="4" name="Boots" brand_id="2" price="440.00" quantity="1"/>
+</dataset>

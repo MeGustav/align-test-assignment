@@ -1,8 +1,7 @@
 package com.megustav.align.service;
 
-import com.megustav.align.service.entity.ProductDTO;
-
-import java.util.List;
+import com.megustav.align.service.entity.ProductsResponse;
+import com.megustav.align.service.entity.filter.ProductsFilter;
 
 /**
  * Service for products operations
@@ -17,6 +16,6 @@ public interface ProductService {
      *
      * @return all products
      */
-    List<ProductDTO> getAllProducts();
+    ProductsResponse getProducts(ProductsFilter filter);
 
 }
