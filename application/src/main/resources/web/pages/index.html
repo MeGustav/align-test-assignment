@@ -10,6 +10,11 @@
 <script src="/scripts/app.js"></script>
 
 <body>
+
+<form action="/logout" method="post">
+    <input type="submit" value="Logout">
+</form>
+
 <div ng-controller="ProductsTableController as mc">
     <table class="table" st-pipe="mc.fetchData" st-table="mc.displayed">
         <thead>
