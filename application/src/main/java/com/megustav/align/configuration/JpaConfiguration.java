@@ -7,6 +7,7 @@ import com.megustav.align.domain.repository.ProductRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
+import org.springframework.context.annotation.DependsOn;
 import org.springframework.data.jpa.repository.support.JpaRepositoryFactoryBean;
 import org.springframework.orm.jpa.JpaTransactionManager;
 import org.springframework.orm.jpa.LocalContainerEntityManagerFactoryBean;
@@ -23,6 +24,7 @@ import javax.sql.DataSource;
  * 30/05/2018 21:21
  */
 @Configuration
+@DependsOn({ "liquibase" })
 public class JpaConfiguration {
 
     private final DataSource dataSource;

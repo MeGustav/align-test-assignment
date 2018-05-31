@@ -33,12 +33,12 @@ public class Product {
     private BigDecimal price;
     /** Product quantity */
     @NotNull
-    private long quantity;
+    private int quantity;
 
     public Product(@NotNull String name,
                    @NotNull Brand brand,
                    @NotNull BigDecimal price,
-                   @NotNull long quantity) {
+                   @NotNull int quantity) {
         this.name = name;
         this.brand = brand;
         this.price = price;
@@ -86,7 +86,7 @@ public class Product {
         return quantity;
     }
 
-    public void setQuantity(long quantity) {
+    public void setQuantity(int quantity) {
         this.quantity = quantity;
     }
 

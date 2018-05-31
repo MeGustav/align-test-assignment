@@ -8,9 +8,9 @@
     <!-- Better separate every action into isolated change sets so it could be easily rolled back -->
 
     <!-- Brands table creation -->
-    <changeSet id="base-table-structure-brands" author="megustav">
+    <changeSet id="brands-bootstrap" author="megustav">
         <createTable tableName="brands">
-            <column name="id" type="number" autoIncrement="true" startWith="1" incrementBy="1">
+            <column name="id" type="number">
                 <constraints primaryKey="true" primaryKeyName="xpk_brands"/>
             </column>
             <column name="name" type="varchar(200)">
@@ -18,11 +18,18 @@
             </column>
         </createTable>
     </changeSet>
+    <changeSet id="brands-auto-increment" author="megustav">
+        <addAutoIncrement tableName="brands"
+                          columnName="id"
+                          columnDataType="number"
+                          incrementBy="1"
+                          startWith="1"/>
+    </changeSet>
 
     <!-- Products table creation -->
-    <changeSet id="base-table-structure-products" author="megustav">
+    <changeSet id="products-bootstrap" author="megustav">
         <createTable tableName="products">
-            <column name="id" type="number" autoIncrement="true" startWith="1" incrementBy="1">
+            <column name="id" type="number">
                 <constraints primaryKey="true" primaryKeyName="xpk_products"/>
             </column>
             <column name="name" type="varchar(200)">
@@ -39,8 +46,15 @@
             </column>
         </createTable>
     </changeSet>
+    <changeSet id="products-auto-increment" author="megustav">
+        <addAutoIncrement tableName="products"
+                          columnName="id"
+                          columnDataType="number"
+                          incrementBy="1"
+                          startWith="1"/>
+    </changeSet>
     <!-- Name and brand is a unique combination -->
-    <changeSet id="base-table-structure-products-unique-index" author="megustav">
+    <changeSet id="products-unique-index" author="megustav">
         <createIndex tableName="products" indexName="idx_name_brand" unique="true">
             <column name="name" type="varchar(200)"/>
             <column name="brand_id" type="number"/>

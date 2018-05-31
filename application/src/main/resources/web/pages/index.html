@@ -1,25 +1,52 @@
-<html>
+<html ng-app="productsApp">
 
 <head>
     <title>Products</title>
 </head>
 
+<link rel="stylesheet" href="/webjars/bootstrap/css/bootstrap.min.css">
+<script src="/webjars/angular/angular.min.js"></script>
+<script src="/webjars/angular-smart-table/dist/smart-table.min.js"></script>
+<script src="/scripts/app.js"></script>
+
 <body>
-<div class="container">
-    <h3 class="text-center">Products</h3>
-    <ul class="nav nav-tabs">
-        <li class="nav-item nav-fill">
-            <a class="nav-link active" href="#">Main</a>
-        </li>
-        <li class="nav-item nav-fill">
-            <a class="nav-link" href="#">Leftovers</a>
-        </li>
-    </ul>
+<div ng-controller="ProductsTableController as mc">
+    <table class="table" st-pipe="mc.fetchData" st-table="mc.displayed">
+        <thead>
+        <tr>
+            <th st-sort="name">Name</th>
+            <th st-sort="brand">Brand</th>
+            <th st-sort="price">Price</th>
+            <th st-sort="quantity">Quantity</th>
+        </tr>
+        <tr>
+            <th><input st-search="name" placeholder="Name..." class="input-sm form-control" type="search"/></th>
+            <th><input st-search="brand" placeholder="Brand..." class="input-sm form-control" type="search"/></th>
+            <th colspan="2"><input st-search="" class="form-control" placeholder="Global..." type="text"/></th>
+        </tr>
+        </thead>
+        <tbody ng-show="!mc.isLoading">
+        <tr ng-repeat="row in mc.displayed">
+            <td>{{row.name}}</td>
+            <td>{{row.brand}}</td>
+            <td>{{row.price | currency}}</td>
+            <td>{{row.quantity}}</td>
+        </tr>
+        </tbody>
+        <tbody ng-show="mc.isLoading">
+        <tr>
+            <td colspan="4" class="text-center">Loading ... </td>
+        </tr>
+        </tbody>
+        <tfoot>
+        <tr>
+            <td class="text-center" st-pagination="" st-items-by-page="10" colspan="4">
+            </td>
+        </tr>
+        </tfoot>
+    </table>
 </div>
 </body>
-
-<!-- Loading scripts afterwards -->
-<link rel="stylesheet" href="/webjars/bootstrap/css/bootstrap.min.css">
 <script src="/webjars/jquery/jquery.min.js"></script>
 <script src="/webjars/bootstrap/js/bootstrap.min.js"></script>
 

@@ -1,6 +1,8 @@
 package com.megustav.align.domain.repository;
 
 import com.megustav.align.domain.entity.Product;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
 import org.springframework.data.jpa.repository.JpaRepository;
 
 import java.util.List;
@@ -30,5 +32,14 @@ public interface ProductRepository extends JpaRepository<Product, Long> {
      * @return optional product
      */
     Optional<Product> findByNameAndBrandName(String name, String brand);
+
+    /**
+     * Find products whose quantities are less than needed
+     *
+     * @param quantity quantity upper bound
+     * @param pageable pagination
+     * @return leftovers
+     */
+    Page<Product> findAllByQuantityLessThanEqual(int quantity, Pageable pageable);
 
 }

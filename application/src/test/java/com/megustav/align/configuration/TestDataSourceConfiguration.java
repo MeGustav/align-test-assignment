@@ -3,6 +3,7 @@ package com.megustav.align.configuration;
 import org.springframework.boot.test.context.TestComponent;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
+import org.springframework.context.annotation.Import;
 import org.springframework.jdbc.core.JdbcTemplate;
 import org.springframework.jdbc.datasource.embedded.EmbeddedDatabaseBuilder;
 import org.springframework.jdbc.datasource.embedded.EmbeddedDatabaseType;
@@ -17,6 +18,7 @@ import javax.sql.DataSource;
  */
 @TestComponent
 @Configuration
+@Import({ LiquibaseConfiguration.class })
 public class TestDataSourceConfiguration {
 
     /**

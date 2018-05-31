@@ -15,7 +15,6 @@ import java.util.stream.Collectors;
  */
 public class ProductServiceImpl implements ProductService {
 
-    /** Products DAO */
     private final ProductRepository repository;
 
     public ProductServiceImpl(ProductRepository repository) {

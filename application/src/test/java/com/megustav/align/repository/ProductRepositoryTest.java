@@ -9,6 +9,8 @@ import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
+import org.springframework.data.domain.PageRequest;
+import org.springframework.data.domain.Pageable;
 import org.springframework.jdbc.core.JdbcTemplate;
 import org.springframework.test.annotation.DirtiesContext;
 import org.springframework.test.context.ContextConfiguration;
@@ -18,6 +20,7 @@ import javax.persistence.PersistenceException;
 import java.math.BigDecimal;
 import java.util.List;
 import java.util.Optional;
+import java.util.stream.IntStream;
 
 import static org.assertj.core.api.Assertions.assertThat;
 
@@ -85,6 +88,31 @@ public class ProductRepositoryTest {
     @Test
     public void testGetAllProductsEmpty() {
         assertThat(repository.findAll()).as("Products").hasSize(0);
+    }
+
+    /**
+     * Tesing pageable functionality
+     */
+    @Test
+    public void testGetProductsPageable() {
+        insertBrand(1, "Nike");
+        IntStream.range(1, 10).forEach(idx -> insertProduct("Product" + idx, 1, idx + "0.00", idx));
+        List<Product> products = repository.findAll(PageRequest.of(2, 2)).getContent();
+        assertThat(products).hasSize(2).extracting(Product::getName).contains("Product5", "Product6");
+    }
+
+    /**
+     * Test {@link ProductRepository#findAllByQuantityLessThanEqual(int, Pageable)} basic
+     */
+    @Test
+    public void testGetProductsLeftovers() {
+        insertBrand(1, "Nike");
+        IntStream.range(1, 20).forEach(idx -> insertProduct("Product" + idx, 1, idx + "0.00", idx));
+        int leftoverQuantity = 10;
+        List<Product> products = repository.findAllByQuantityLessThanEqual(leftoverQuantity, PageRequest.of(0, 20)).getContent();
+        assertThat(products).hasSize(10)
+                .extracting(Product::getQuantity)
+                .allMatch(quantity -> quantity <= leftoverQuantity);
     }
 
     /**

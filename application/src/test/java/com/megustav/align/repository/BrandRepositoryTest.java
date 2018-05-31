@@ -16,6 +16,7 @@ import org.springframework.test.context.junit4.SpringRunner;
 
 import javax.persistence.PersistenceException;
 import java.util.List;
+import java.util.Optional;
 
 /**
  * Brand repository tests.
@@ -53,6 +54,32 @@ public class BrandRepositoryTest {
 
         List<Brand> brands = repository.findAll();
         Assertions.assertThat(brands).hasSize(1).extracting(Brand::getName).containsExactly("Nike");
+    }
+
+    /**
+     * Test that {@link BrandRepository#findAll()} basic functionality
+     */
+    @Test
+    public void testBrandsFindByName() {
+        template.update("INSERT INTO brands (name) VALUES (?)", "Nike");
+        template.update("INSERT INTO brands (name) VALUES (?)", "Adidas");
+
+        Optional<Brand> brand = repository.findByName("Adidas");
+        Assertions.assertThat(brand)
+                .isPresent()
+                .containsInstanceOf(Brand.class)
+                .map(Brand::getName).get().isEqualTo("Adidas");
+    }
+
+    /**
+     * Test that {@link BrandRepository#findAll()} basic functionality
+     */
+    @Test
+    public void testBrandsFindByNameIfNothingFound() {
+        template.update("INSERT INTO brands (name) VALUES (?)", "Nike");
+
+        Optional<Brand> brand = repository.findByName("Adidas");
+        Assertions.assertThat(brand).isNotPresent();
     }
 
     /**
