@@ -49,8 +49,8 @@ public class ProductServiceImpl implements ProductService {
                         prepareSearchField(search.getBrand()),
                         pageable
                 );
-        log.debug("Got {} products", page.getTotalElements());
-        log.trace("Products: {}", page.getContent());
+        log.debug("Overall products fitting filter: {}", page.getTotalElements());
+        log.trace("Page products: {}", page.getContent());
         return new ProductsResponse(page.getTotalElements(), mapProducts(page.getContent()));
     }
 
